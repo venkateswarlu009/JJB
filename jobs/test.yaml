@@ -54,3 +54,6 @@
     project-type: freestyle
     builders:
        - shell: 'ls'
+- job-template:
+    name: 'http://35.230.175.195:8080/test-jjb'
+    project-type: folder
