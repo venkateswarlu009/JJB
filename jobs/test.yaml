@@ -1,5 +1,5 @@
 - job:
-    name: default
+    name: jjb-test
     description: 'test yaml file'
     logrotate:
       daysToKeep: 10
