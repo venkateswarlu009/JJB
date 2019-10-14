@@ -1,0 +1,56 @@
+- job:
+    name: default
+    description: 'test yaml file'
+    logrotate:
+      daysToKeep: 10
+      numToKeep: 10
+      artifactDaysToKeep: -1
+      artifactNumToKeep: -1
+    scm:
+      - git:
+           url: 'https://github.com/fedora-infra/igger_test.git'
+           name: 'trigger_test'
+           refspec: '+refs/heads/develop'
+           branches:
+               - master
+           wipe-workspace: true
+           skip-tag: true
+    triggers:
+      - timed: "H */4 * * *"
+    parameters:
+      - string:
+          name: BRANCH
+          default: 'master'
+      - password:
+          name: venki
+          default: 'venki'
+      - string:
+           name: ARTIFACT_URL
+           default: 'value'
+           #throttle:
+             # maxConcurrentPerNode: 1
+             #maxConcurrentTotal: 0 
+             #throttle concurrent builds:
+             #- maximum total concurrent builds: 5
+      - node:
+           name: SLAVE_NAME
+           description: "Select slave"
+           allowed-slaves:
+              - slave001
+              - slave002
+              - slave003
+           ignore-offline-nodes: true
+           allowed-multiselect: true
+    properties:
+      - throttle:
+          max-per-node: 2
+          max-total: 4
+          categories:
+           - cat1
+           - cat2
+          option: category
+          matrix-builds: false
+          matrix-configs: true
+    project-type: freestyle
+    builders:
+       - shell: 'ls'
